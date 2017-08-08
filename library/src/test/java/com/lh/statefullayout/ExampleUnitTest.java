@@ -1,4 +1,4 @@
-package com.android.widget;
+package com.lh.statefullayout;
 
 import org.junit.Test;
 

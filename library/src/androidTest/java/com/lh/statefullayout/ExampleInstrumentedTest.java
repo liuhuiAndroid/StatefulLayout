@@ -1,4 +1,4 @@
-package com.android.widget;
+package com.lh.statefullayout;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.android.widget.test", appContext.getPackageName());
+        assertEquals("com.lh.statefullayout.test", appContext.getPackageName());
     }
 }
