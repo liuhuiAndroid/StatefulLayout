@@ -51,6 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/stateful_layout_bg_retry"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="@string/statefulLayoutErrorButton"
             android:textColor="@color/statefulLayoutImageColor"/>
 

@@ -87,22 +87,22 @@ public class StatefulLayout extends FrameLayout {
     }
 
     public void showContent() {
-        switchState(CONTENT);
+        switchState(CONTENT, null);
     }
 
     public void showLoading() {
-        switchState(LOADING);
+        switchState(LOADING, null);
     }
 
-    public void showEmpty() {
-        switchState(EMPTY);
+    public void showEmpty(StatusfulConfig statusfulConfig) {
+        switchState(EMPTY, statusfulConfig);
     }
 
-    public void showError() {
-        switchState(ERROR);
+    public void showError(StatusfulConfig statusfulConfig) {
+        switchState(ERROR, statusfulConfig);
     }
 
-    private void switchState(String state) {
+    private void switchState(String state, StatusfulConfig statusfulConfig) {
         this.state = state;
 
         switch (state) {
@@ -113,14 +113,10 @@ public class StatefulLayout extends FrameLayout {
                 setLoadingState();
                 break;
             case EMPTY:
-                setEmptyState();
-                emptyStateImageView.setImageResource(R.drawable.stateful_layout_ic_empty);
-                //TODO
+                setEmptyState(statusfulConfig);
                 break;
             case ERROR:
-                setErrorState();
-                errorStateImageView.setImageResource(R.drawable.stateful_layout_ic_error);
-                //TODO
+                setErrorState(statusfulConfig);
                 break;
         }
     }
@@ -143,7 +139,7 @@ public class StatefulLayout extends FrameLayout {
         }
     }
 
-    private void setEmptyView() {
+    private void setEmptyView(StatusfulConfig statusfulConfig) {
         if (emptyStateFrameLayout == null) {
             view = inflater.inflate(R.layout.stateful_layout_empty_view, null);
             emptyStateFrameLayout = (FrameLayout) view.findViewById(R.id.frame_layout_empty);
@@ -152,6 +148,24 @@ public class StatefulLayout extends FrameLayout {
             emptyStateImageView = (ImageView) view.findViewById(R.id.image_icon);
             emptyStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
             emptyStateContentTextView = (TextView) view.findViewById(R.id.text_content);
+
+            //设置属性
+            emptyStateImageView.setImageResource(R.drawable.stateful_layout_ic_empty);
+            if (statusfulConfig != null) {
+
+                if (statusfulConfig.getEmptyImageResId() != 0) {
+                    emptyStateImageView.setImageResource(statusfulConfig.getEmptyImageResId());
+                }
+
+                if (statusfulConfig.getEmptyTextTitle() != null) {
+                    emptyStateTitleTextView.setText(statusfulConfig.getEmptyTextTitle());
+                }
+
+                if (statusfulConfig.getEmptyTextContent() != null) {
+                    emptyStateContentTextView.setText(statusfulConfig.getEmptyTextContent());
+                }
+
+            }
 
             layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
@@ -163,7 +177,7 @@ public class StatefulLayout extends FrameLayout {
         }
     }
 
-    private void setErrorView() {
+    private void setErrorView(StatusfulConfig statusfulConfig) {
         if (errorStateFrameLayout == null) {
             view = inflater.inflate(R.layout.stateful_layout_error_view, null);
             errorStateFrameLayout = (FrameLayout) view.findViewById(R.id.frame_layout_error);
@@ -173,6 +187,31 @@ public class StatefulLayout extends FrameLayout {
             errorStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
             errorStateContentTextView = (TextView) view.findViewById(R.id.text_content);
             errorStateButton = (Button) view.findViewById(R.id.button_retry);
+
+            //设置属性
+            errorStateImageView.setImageResource(R.drawable.stateful_layout_ic_error);
+            if (statusfulConfig != null) {
+
+                if (statusfulConfig.getErrorImageResId() != 0) {
+                    errorStateImageView.setImageResource(statusfulConfig.getErrorImageResId());
+                }
+
+                if (statusfulConfig.getErrorTextTitle() != null) {
+                    errorStateTitleTextView.setText(statusfulConfig.getErrorTextTitle());
+                }
+
+                if (statusfulConfig.getErrorTextContent() != null) {
+                    errorStateContentTextView.setText(statusfulConfig.getErrorTextContent());
+                }
+
+                if (statusfulConfig.getErrorButtonText() != null) {
+                    errorStateButton.setText(statusfulConfig.getErrorButtonText());
+                }
+
+                if (statusfulConfig.getOnErrorStateButtonClickListener() != null) {
+                    errorStateButton.setOnClickListener(statusfulConfig.getOnErrorStateButtonClickListener());
+                }
+            }
 
             layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
@@ -204,19 +243,19 @@ public class StatefulLayout extends FrameLayout {
         setContentVisibility(false);
     }
 
-    private void setEmptyState() {
+    private void setEmptyState(StatusfulConfig statusfulConfig) {
         hideLoadingView();
         hideErrorView();
 
-        setEmptyView();
+        setEmptyView(statusfulConfig);
         setContentVisibility(false);
     }
 
-    private void setErrorState() {
+    private void setErrorState(StatusfulConfig statusfulConfig) {
         hideLoadingView();
         hideEmptyView();
 
-        setErrorView();
+        setErrorView(statusfulConfig);
         setContentVisibility(false);
     }
 
