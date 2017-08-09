@@ -4,6 +4,7 @@ import android.view.View;
 
 /**
  * Created by lh on 2017/8/9.
+ *
  * Build模式给StatefulLayout设置各种属性
  */
 
